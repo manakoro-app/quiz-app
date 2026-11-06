@@ -21,7 +21,13 @@
 	    }
         .choice-btn.selected-choice {
             outline: 3px solid #2563eb;
-            background-color: #dbeafe;
+            background-color: #dbeafe !important;
+            color: #172b4d !important;
+            font-weight: 700;
+        }
+        .choice-btn.selected-choice:not(:disabled):hover {
+            background-color: #bfdbfe !important;
+            color: #172b4d !important;
         }
         #submitAnswerBtn {
             margin: 16px 0;
