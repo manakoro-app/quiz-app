@@ -19,6 +19,17 @@
 	    html.auth-checking body {
 	        visibility: hidden;
 	    }
+        .choice-btn.selected-choice {
+            outline: 3px solid #2563eb;
+            background-color: #dbeafe;
+        }
+        #submitAnswerBtn {
+            margin: 16px 0;
+            padding: 12px 20px;
+            width: 100%;
+            cursor: pointer;
+        }
+        #submitAnswerBtn:disabled { opacity: .5; cursor: not-allowed; }
 	</style>
 
 </head>
@@ -362,6 +373,10 @@
                 class="choices">
 
             </div>
+
+            <button id="submitAnswerBtn" type="button" style="display:none;">
+                回答する
+            </button>
 
             <div
                 id="result"

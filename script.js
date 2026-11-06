@@ -17,6 +17,7 @@ let sessionCorrect = 0;
 let sessionIncorrect = 0;
 
 let answered = false;
+let selectedChoiceIndexes = new Set();
 
 /* ==========================
    Supabase 学習履歴
@@ -503,11 +504,48 @@ function returnHome() {
    問題描画
 ========================== */
 
+function getCorrectIndexes(question) {
+    if (Array.isArray(question.answerIndexes)) {
+        return question.answerIndexes;
+    }
+    return [question.answerIndex];
+}
+
+function isMultipleAnswer(question) {
+    return getCorrectIndexes(question).length > 1;
+}
+
+function updateAnswerButton() {
+    const btn = document.getElementById("submitAnswerBtn");
+    btn.style.display = isMultipleAnswer(currentQuestion) ? "block" : "none";
+    btn.disabled = answered || selectedChoiceIndexes.size === 0;
+}
+
+function toggleMultipleChoice(originalIndex, button) {
+    if (answered) return;
+    if (selectedChoiceIndexes.has(originalIndex)) {
+        selectedChoiceIndexes.delete(originalIndex);
+        button.classList.remove("selected-choice");
+        button.setAttribute("aria-pressed", "false");
+    } else {
+        selectedChoiceIndexes.add(originalIndex);
+        button.classList.add("selected-choice");
+        button.setAttribute("aria-pressed", "true");
+    }
+    updateAnswerButton();
+}
+
+function submitMultipleAnswer() {
+    if (!currentQuestion || answered || selectedChoiceIndexes.size === 0) return;
+    finishAnswer([...selectedChoiceIndexes]);
+}
+
 function renderQuestion(
     question
 ) {
 
     answered = false;
+    selectedChoiceIndexes = new Set();
 
     document.getElementById(
         "category"
@@ -589,10 +627,10 @@ function renderQuestion(
     choicesArea.innerHTML = "";
 
     const shuffledChoices =
-        [...question.choices]
-        .sort(
-            () => Math.random() - 0.5
-        );
+        question.choices.map((choice, originalIndex) => ({
+            ...choice,
+            originalIndex
+        })).sort(() => Math.random() - 0.5);
 
 	currentQuestion.shuffledChoices =
 	    shuffledChoices;
@@ -637,14 +675,14 @@ shuffledChoices.forEach(
 
         }
 
-        button.addEventListener(
-            "click",
-            () =>
-            checkAnswer(
-                choice,
-                index
-            )
-        );
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", () => {
+            if (isMultipleAnswer(currentQuestion)) {
+                toggleMultipleChoice(choice.originalIndex, button);
+            } else {
+                finishAnswer([choice.originalIndex]);
+            }
+        });
 
         choicesArea.appendChild(
             button
@@ -654,6 +692,7 @@ shuffledChoices.forEach(
 );
 
     updateFavoriteButton();
+    updateAnswerButton();
 
 }
 
@@ -661,69 +700,25 @@ shuffledChoices.forEach(
    回答判定
 ========================== */
 
-function checkAnswer(
-    selectedChoice,
-    selectedIndex
-) {
-
-    if (
-        answered
-    ) {
-
-        return;
-
-    }
-
+function finishAnswer(selectedIndexes) {
+    if (answered) return;
     answered = true;
+    const correctIndexes = getCorrectIndexes(currentQuestion);
+    const isCorrect =
+        selectedIndexes.length === correctIndexes.length &&
+        selectedIndexes.every(i => correctIndexes.includes(i));
 
-    const buttons =
-        document.querySelectorAll(
-            ".choice-btn"
-        );
-
-    buttons.forEach(btn => {
-
+    const buttons = document.querySelectorAll(".choice-btn");
+    buttons.forEach((btn, index) => {
         btn.disabled = true;
-
+        const originalIndex = currentQuestion.shuffledChoices[index].originalIndex;
+        if (correctIndexes.includes(originalIndex)) {
+            btn.classList.add("correct-choice");
+        } else if (selectedIndexes.includes(originalIndex)) {
+            btn.classList.add("wrong-choice");
+        }
     });
-
-	buttons.forEach((btn, index) => {
-
-	    const displayedChoice =
-	        currentQuestion.shuffledChoices[
-	            index
-	        ];
-
-	    const correctChoice =
-	        currentQuestion.choices[
-	            currentQuestion.answerIndex
-	        ];
-
-	    if (
-	        displayedChoice.value ===
-	        correctChoice.value
-	    ) {
-
-	        btn.classList.add(
-	            "correct-choice"
-	        );
-
-	    }
-
-	    if (
-	        displayedChoice.value ===
-	        selectedChoice.value &&
-	        displayedChoice.value !==
-	        correctChoice.value
-	    ) {
-
-	        btn.classList.add(
-	            "wrong-choice"
-	        );
-
-	    }
-
-	});
+    updateAnswerButton();
 
     const history =
         getHistory();
@@ -757,28 +752,12 @@ function checkAnswer(
             "explanation"
         );
 
-	const isCorrect =
-	    selectedChoice.value ===
-	    currentQuestion.choices[
-	        currentQuestion.answerIndex
-	    ].value;
-
-	const correctChoice =
-	    currentQuestion.choices[
-	        currentQuestion.answerIndex
-	    ];
-
-	const correctDisplayedIndex =
-	    currentQuestion.shuffledChoices
-	        .findIndex(
-	            c =>
-	                c.value ===
-	                correctChoice.value
-	        );
-
-	const correctNumber =
-	    correctDisplayedIndex + 1;
-
+    const selectedNumbers = currentQuestion.shuffledChoices
+        .map((choice, i) => selectedIndexes.includes(choice.originalIndex) ? i + 1 : null)
+        .filter(n => n !== null);
+    const correctNumbers = currentQuestion.shuffledChoices
+        .map((choice, i) => correctIndexes.includes(choice.originalIndex) ? i + 1 : null)
+        .filter(n => n !== null);
 
     if (isCorrect) {
 
@@ -806,22 +785,10 @@ function checkAnswer(
 
     }
 
-	let html = "";
-
-	html +=
-	    "あなたの回答 : " +
-	    (selectedIndex + 1) +
-	    "番<br><br>";
-
-	html +=
-	    "正解 : " +
-	    correctNumber +
-	    "番<br><br>";
-
-	html +=
-	    "<strong>各選択肢の解説</strong><br><br>";
-
-
+    let html = "";
+    html += "あなたの回答 : " + selectedNumbers.join("、") + "番<br><br>";
+    html += "正解 : " + correctNumbers.join("、") + "番<br><br>";
+    html += "<strong>各選択肢の解説</strong><br><br>";
 
 	currentQuestion.shuffledChoices
 	.forEach(
@@ -947,25 +914,6 @@ function checkAnswer(
 saveQuestionHistory(id);
 
     updateStatistics();
-
-}
-
-function getDisplayedAnswerNumber() {
-
-    const correctChoice =
-        currentQuestion.choices[
-            currentQuestion.answerIndex
-        ];
-
-    const displayedIndex =
-        currentQuestion.shuffledChoices
-            .findIndex(
-                choice =>
-                    choice.value ===
-                    correctChoice.value
-            );
-
-    return displayedIndex + 1;
 
 }
 
@@ -1156,6 +1104,9 @@ function updateProgress() {
 /* ==========================
    イベント登録
 ========================== */
+
+document.getElementById("submitAnswerBtn")
+    .addEventListener("click", submitMultipleAnswer);
 
 document
     .getElementById(
