@@ -519,3 +519,24 @@ footer {
     color: white;
 
 }
+/* 複数回答の選択中：薄い青背景でも読みやすい文字色 */
+.choice-btn.selected-choice,
+.choice-btn.selected-choice:hover,
+.choice-btn.selected-choice:active {
+    background-color: #dbeafe;
+    color: #172b4d;
+    border: 3px solid #2563eb;
+    font-weight: bold;
+}
+
+/* 判定後の正誤色を優先 */
+.choice-btn.correct-choice,
+.choice-btn.correct-choice:hover {
+    background-color: #16a34a !important;
+    color: #ffffff !important;
+}
+.choice-btn.wrong-choice,
+.choice-btn.wrong-choice:hover {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+}
