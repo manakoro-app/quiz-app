@@ -306,6 +306,18 @@
 
                 </div>
 
+                <div class="filter-group">
+                    <label for="questionLimit">出題数</label>
+                    <select id="questionLimit">
+                        <option value="5">5問</option>
+                        <option value="10" selected>10問</option>
+                        <option value="20">20問</option>
+                        <option value="50">50問</option>
+                        <option value="all">すべての問題</option>
+                    </select>
+                    <p class="question-limit-note">対象問題が指定数より少ない場合は、対象の全問題を出題します。</p>
+                </div>
+
                 <button id="startBtn">
 
                     学習開始
@@ -402,6 +414,10 @@
 
                     次の問題
 
+                </button>
+
+                <button id="finishEarlyBtn" type="button">
+                    学習を途中終了
                 </button>
 
             </div>

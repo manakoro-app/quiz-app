@@ -18,6 +18,8 @@ let sessionIncorrect = 0;
 
 let answered = false;
 let selectedChoiceIndexes = new Set();
+let sessionQuestions = [];
+let sessionIndex = 0;
 
 /* ==========================
    Supabase 学習履歴
@@ -331,150 +333,79 @@ function selectRandomQuestion(
    学習開始
 ========================== */
 
-function startQuiz() {
-
-    askedQuestions = [];
-
-    sessionCorrect = 0;
-
-    sessionIncorrect = 0;
-
-    updateQuestionCount();
-
-    document.getElementById(
-        "startScreen"
-    ).style.display =
-        "none";
-
-    document.getElementById(
-        "quizScreen"
-    ).style.display =
-        "block";
-
-    document.getElementById(
-        "finishScreen"
-    ).style.display =
-        "none";
-
-    loadQuestion();
-
+function buildSessionQuestions() {
+    const filtered = getFilteredQuestions();
+    const shuffled = [...filtered];
+    // Fisher-Yates: セッションごとにランダム・重複なし
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    const setting = document.getElementById("questionLimit").value;
+    const limit = setting === "all" ? shuffled.length : Number(setting);
+    return shuffled.slice(0, Math.min(limit, shuffled.length));
 }
 
-/* ==========================
-   問題表示
-========================== */
+function startQuiz() {
+    sessionQuestions = buildSessionQuestions();
+    if (sessionQuestions.length === 0) {
+        alert("条件に一致する問題がありません。");
+        return;
+    }
+    sessionIndex = 0;
+    askedQuestions = [];
+    sessionCorrect = 0;
+    sessionIncorrect = 0;
+    currentQuestion = null;
+    updateQuestionCount();
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("quizScreen").style.display = "block";
+    document.getElementById("finishScreen").style.display = "none";
+    loadQuestion();
+}
+
+function showSessionResult(interrupted) {
+    const total = sessionCorrect + sessionIncorrect;
+    const score = total === 0 ? "0.0" : (sessionCorrect / total * 100).toFixed(1);
+    document.getElementById("quizScreen").style.display = "none";
+    document.getElementById("finishScreen").style.display = "block";
+    document.getElementById("finishResult").innerHTML = `
+        <h3>${interrupted ? "途中終了しました" : "今回の結果"}</h3>
+        出題予定数：${sessionQuestions.length}問<br>
+        回答数：${total}問<br>
+        正解数：${sessionCorrect}問<br>
+        不正解数：${sessionIncorrect}問<br>
+        正答率：${score}%
+    `;
+}
 
 function loadQuestion() {
-
-    const filtered =
-        getFilteredQuestions();
-
-    if (
-        filtered.length === 0
-    ) {
-
-        document.getElementById(
-            "question"
-        ).textContent =
-            "該当する問題がありません";
-
-        document.getElementById(
-            "choices"
-        ).innerHTML = "";
-
-        document.getElementById(
-            "result"
-        ).innerHTML = "";
-
-        document.getElementById(
-            "explanation"
-        ).innerHTML = "";
-
+    // 未回答の問題を飛ばさない
+    if (currentQuestion && !answered) {
+        alert("回答してから「次の問題」を押してください。");
         return;
-
     }
-
-    currentQuestion =
-        selectRandomQuestion(
-            filtered
-        );
-
-    if (
-        currentQuestion === null
-    ) {
-
-        const total =
-            sessionCorrect +
-            sessionIncorrect;
-
-        const score =
-            total === 0
-            ? 0
-            : (
-                sessionCorrect /
-                total *
-                100
-            ).toFixed(1);
-
-        document.getElementById(
-            "quizScreen"
-        ).style.display =
-            "none";
-
-        document.getElementById(
-            "finishScreen"
-        ).style.display =
-            "block";
-
-        document.getElementById(
-            "finishResult"
-        ).innerHTML =
-            `
-            <h3>今回の結果</h3>
-
-            正解数：${sessionCorrect}<br>
-
-            不正解数：${sessionIncorrect}<br>
-
-            正答率：${score}%
-            `;
-
+    if (sessionIndex >= sessionQuestions.length) {
+        showSessionResult(false);
         return;
-
     }
-
-    renderQuestion(
-        currentQuestion
-    );
-
+    currentQuestion = sessionQuestions[sessionIndex];
+    sessionIndex++;
+    askedQuestions.push(currentQuestion.id);
+    renderQuestion(currentQuestion);
     updateProgress();
-
 }
 
-/* ==========================
-   再チャレンジ
-========================== */
+function finishQuizEarly() {
+    if (!confirm("ここで学習を終了しますか？\n回答済みの学習履歴は保存されます。")) {
+        return;
+    }
+    // 現在の未回答問題は集計しない
+    showSessionResult(true);
+}
 
 function restartQuiz() {
-
-    askedQuestions = [];
-
-    sessionCorrect = 0;
-
-    sessionIncorrect = 0;
-
-    document.getElementById(
-        "finishScreen"
-    ).style.display =
-        "none";
-
-    document.getElementById(
-        "quizScreen"
-    ).style.display =
-        "block";
-
-    loadQuestion();
-
+    startQuiz();
 }
 
 /* ==========================
@@ -482,6 +413,9 @@ function restartQuiz() {
 ========================== */
 
 function returnHome() {
+    currentQuestion = null;
+    sessionQuestions = [];
+    sessionIndex = 0;
 
     document.getElementById(
         "startScreen"
@@ -516,7 +450,10 @@ function isMultipleAnswer(question) {
 }
 
 function updateAnswerButton() {
-    const btn = document.getElementById("submitAnswerBtn");
+    const btn = document.getElementById("finishEarlyBtn")
+    .addEventListener("click", finishQuizEarly);
+
+document.getElementById("submitAnswerBtn");
     btn.style.display = isMultipleAnswer(currentQuestion) ? "block" : "none";
     btn.disabled = answered || selectedChoiceIndexes.size === 0;
 }
@@ -1090,15 +1027,8 @@ function updateQuestionCount() {
 }
 
 function updateProgress() {
-
-    const filtered =
-        getFilteredQuestions();
-
-    document.getElementById(
-        "questionCounter"
-    ).textContent =
-        `現在位置 : ${askedQuestions.length} / ${filtered.length}`;
-
+    document.getElementById("questionCounter").textContent =
+        `現在位置 : ${sessionIndex} / ${sessionQuestions.length}`;
 }
 
 /* ==========================
