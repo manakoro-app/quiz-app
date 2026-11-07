@@ -450,10 +450,7 @@ function isMultipleAnswer(question) {
 }
 
 function updateAnswerButton() {
-    const btn = document.getElementById("finishEarlyBtn")
-    .addEventListener("click", finishQuizEarly);
-
-document.getElementById("submitAnswerBtn");
+    const btn = document.getElementById("submitAnswerBtn");
     btn.style.display = isMultipleAnswer(currentQuestion) ? "block" : "none";
     btn.disabled = answered || selectedChoiceIndexes.size === 0;
 }
@@ -1171,3 +1168,6 @@ async function initializeApp() {
 }
 
 initializeApp();
+// 途中終了ボタン
+document.getElementById("finishEarlyBtn")
+    .addEventListener("click", finishQuizEarly);
