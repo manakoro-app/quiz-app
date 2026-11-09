@@ -211,13 +211,15 @@ function initializeCategories() {
    カテゴリに応じて候補を更新
 ========================== */
 function getQuestionSubcategories(question) {
-    if (Array.isArray(question.tags)) {
-        return question.tags.map(tag => String(tag).trim()).filter(Boolean);
+    // Excel から生成される questions.js の subCategory を使用する。
+    // 未設定値「-」は候補に表示しない。
+    const value = question.subCategory;
+    if (Array.isArray(value)) {
+        return value.map(v => String(v).trim()).filter(v => v && v !== "-");
     }
-    if (typeof question.tags === "string") {
-        return question.tags.split(",").map(tag => tag.trim()).filter(Boolean);
-    }
-    return [];
+    if (value == null) return [];
+    const name = String(value).trim();
+    return name && name !== "-" ? [name] : [];
 }
 
 function updateSubcategories() {
