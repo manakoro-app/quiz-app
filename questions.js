@@ -7,6 +7,8 @@ const quizData = [
         "tags": [],
         "question": "システムの標準シェルをbashにしています。全ユーザ共通のPATH変数の値を定義するファイルとして最も適切なものを選択してください。",
         "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
         "choices": [
             {
                 "type": "text",
@@ -35,8 +37,7 @@ const quizData = [
         ],
         "answerIndexes": [
             0
-        ],
-        "explanationImage": ""
+        ]
     },
     {
         "id": 2,
@@ -46,6 +47,8 @@ const quizData = [
         "tags": [],
         "question": "bashを使っているとき、環境変数を表示できるコマンドをすべて選択してください。",
         "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
         "choices": [
             {
                 "type": "text",
@@ -81,7 +84,21 @@ const quizData = [
         "answerIndexes": [
             1,
             2
+        ]
+    },
+    {
+        "id": 3,
+        "category": "LPIC01",
+        "subCategory": "-",
+        "difficulty": 3,
+        "tags": [],
+        "question": "シェル変数VARを環境変数として利用できるようにしたいとき、実行すべきコマンドを引数やオプションとともに記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "ecport VAR"
         ],
-        "explanationImage": ""
+        "inputExplanation": "シェル変数を環境変数にするには、exportコマンドでエクスポートする必要があります。シェル変数を環境変数にすることで、シェルから起動されるアプリケーションはその変数を引き継ぐことができます。"
     }
 ];

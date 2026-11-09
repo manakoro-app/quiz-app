@@ -445,13 +445,17 @@ function getCorrectIndexes(question) {
     return [question.answerIndex];
 }
 
+function isInputQuestion(question) {
+    return question.questionType === "input";
+}
+
 function isMultipleAnswer(question) {
     return getCorrectIndexes(question).length > 1;
 }
 
 function updateAnswerButton() {
     const btn = document.getElementById("submitAnswerBtn");
-    btn.style.display = isMultipleAnswer(currentQuestion) ? "block" : "none";
+    btn.style.display = !isInputQuestion(currentQuestion) && isMultipleAnswer(currentQuestion) ? "block" : "none";
     btn.disabled = answered || selectedChoiceIndexes.size === 0;
 }
 
@@ -472,6 +476,81 @@ function toggleMultipleChoice(originalIndex, button) {
 function submitMultipleAnswer() {
     if (!currentQuestion || answered || selectedChoiceIndexes.size === 0) return;
     finishAnswer([...selectedChoiceIndexes]);
+}
+
+// 入力式問題（大文字・小文字を区別、前後の空白のみ除去）
+function renderInputAnswer(area) {
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = "display:flex;flex-direction:column;gap:12px;margin:14px 0;";
+    const field = document.createElement("input");
+    field.type = "text";
+    field.id = "textAnswerInput";
+    field.autocomplete = "off";
+    field.setAttribute("aria-label", "回答を入力");
+    field.placeholder = "回答を入力してください";
+    field.style.cssText = "width:100%;box-sizing:border-box;padding:14px;font-size:18px;border:2px solid #94a3b8;border-radius:8px;color:#172b4d;background:#fff;";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "choice-btn";
+    button.textContent = "回答する";
+    button.disabled = true;
+    const submit = () => {
+        if (answered || !field.value.trim()) return;
+        finishInputAnswer(field.value, field, button);
+    };
+    field.addEventListener("input", () => { button.disabled = !field.value.trim() || answered; });
+    field.addEventListener("keydown", event => {
+        if (event.key === "Enter" && !event.isComposing) { event.preventDefault(); submit(); }
+    });
+    button.addEventListener("click", submit);
+    wrapper.append(field, button);
+    area.appendChild(wrapper);
+}
+
+function finishInputAnswer(rawAnswer, field, button) {
+    if (answered) return;
+    answered = true;
+    field.disabled = true;
+    button.disabled = true;
+    const entered = rawAnswer.trim();
+    const accepted = currentQuestion.acceptedAnswers || [];
+    const isCorrect = accepted.some(value => value.trim() === entered);
+    const id = currentQuestion.id;
+    const history = getHistory();
+    if (!history[id]) history[id] = { correct: 0, incorrect: 0, favorite: false };
+    const resultArea = document.getElementById("result");
+    if (isCorrect) {
+        history[id].correct++;
+        sessionCorrect++;
+        resultArea.textContent = "〇 正解";
+        resultArea.className = "result correct";
+    } else {
+        history[id].incorrect++;
+        sessionIncorrect++;
+        resultArea.textContent = "× 不正解";
+        resultArea.className = "result incorrect";
+    }
+    const explanationArea = document.getElementById("explanation");
+    explanationArea.replaceChildren();
+    const line = (label, value) => {
+        const p = document.createElement("p");
+        const strong = document.createElement("strong");
+        strong.textContent = label;
+        p.append(strong, document.createTextNode(value));
+        explanationArea.appendChild(p);
+    };
+    line("あなたの回答：", entered);
+    line("正解：", accepted.join(" ／ "));
+    if (currentQuestion.inputExplanation) line("解説：", currentQuestion.inputExplanation);
+    if (currentQuestion.explanationImage) {
+        const img = document.createElement("img");
+        img.src = currentQuestion.explanationImage;
+        img.alt = "解説画像";
+        img.className = "explanation-image";
+        explanationArea.appendChild(img);
+    }
+    saveQuestionHistory(id);
+    updateStatistics();
 }
 
 function renderQuestion(
@@ -559,6 +638,13 @@ function renderQuestion(
         );
 
     choicesArea.innerHTML = "";
+
+    if (isInputQuestion(question)) {
+        renderInputAnswer(choicesArea);
+        updateFavoriteButton();
+        updateAnswerButton();
+        return;
+    }
 
     const shuffledChoices =
         question.choices.map((choice, originalIndex) => ({
