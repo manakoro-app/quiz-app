@@ -548,3 +548,8 @@ footer {
 #question {
     white-space: pre-line;
 }
+
+/* 出題設定：苦手問題のみ と 出題数 の間隔 */
+.filter-area .checkbox-area + .filter-group {
+    margin-top: 24px;
+}
