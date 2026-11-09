@@ -11,25 +11,25 @@ const quizData = [
             {
                 "type": "text",
                 "value": "/etc/profile",
-                "explanation": "",
+                "explanation": "全ユーザがログイン時に参照するファイルです。",
                 "explanationImage": ""
             },
             {
                 "type": "text",
                 "value": "/etc/.bashrc",
-                "explanation": "",
+                "explanation": "存在しないファイルです。",
                 "explanationImage": ""
             },
             {
                 "type": "text",
                 "value": "/etc/options",
-                "explanation": "",
+                "explanation": "存在しないファイルです。",
                 "explanationImage": ""
             },
             {
                 "type": "text",
                 "value": "/etc/.bash_profile",
-                "explanation": "",
+                "explanation": "存在しないファイルです。",
                 "explanationImage": ""
             }
         ],
@@ -56,13 +56,13 @@ const quizData = [
             {
                 "type": "text",
                 "value": "env",
-                "explanation": "",
+                "explanation": "環境変数を表示します。",
                 "explanationImage": ""
             },
             {
                 "type": "text",
                 "value": "set",
-                "explanation": "",
+                "explanation": "シェル変数と環境変数を表示します。",
                 "explanationImage": ""
             },
             {
