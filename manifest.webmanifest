@@ -1,12 +1,13 @@
 {
-  "name": "まなころ",
-  "short_name": "まなころ",
+  "name": "まなまる！",
+  "short_name": "まなまる！",
   "description": "楽しく学べるクイズアプリ",
-  "start_url": "./",
+  "lang": "ja",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#087eea",
+  "background_color": "#B8E8FF",
+  "theme_color": "#B8E8FF",
   "icons": [
     {
       "src": "./icon-192.png",
