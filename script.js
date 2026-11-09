@@ -754,10 +754,7 @@ function finishAnswer(selectedIndexes) {
 	        html +=
 	            `<div id="choice-exp-${index}">`;
 
-	        html +=
-	            "【" +
-	            (index + 1) +
-	            "番】<br>";
+	        html += "【" + String.fromCharCode(65 + index) + "】<br>";
 
 	        if (hasExplanation) {
 
