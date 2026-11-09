@@ -97,7 +97,7 @@ const quizData = [
         "explanationImage": "",
         "questionType": "input",
         "acceptedAnswers": [
-            "ecport VAR"
+            "export VAR"
         ],
         "inputExplanation": "シェル変数を環境変数にするには、exportコマンドでエクスポートする必要があります。シェル変数を環境変数にすることで、シェルから起動されるアプリケーションはその変数を引き継ぐことができます。"
     }
