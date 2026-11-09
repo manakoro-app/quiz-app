@@ -571,7 +571,7 @@ function finishInputAnswer(rawAnswer, field, button) {
         explanationArea.appendChild(p);
     };
     line("あなたの回答：", entered);
-    line("正解：", accepted.join(" ／ "));
+    line("正解：", accepted.join(" または "));
     if (currentQuestion.inputExplanation) line("解説：", currentQuestion.inputExplanation);
     if (currentQuestion.explanationImage) {
         const img = document.createElement("img");
