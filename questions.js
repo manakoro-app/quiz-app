@@ -122,7 +122,7 @@ const quizData = [
         "subCategory": "-",
         "difficulty": 3,
         "tags": [],
-        "question": "次のようにシェルスクリプト testscript を実行した際、変数「$#」に格納される値を記述してください。\n\n$ ./testscript args1 args2",
+        "question": "次のようにシェルスクリプト testscript を実行した際、変数「$#」に格納される値を記述してください。\n$ ./testscript args1 args2",
         "questionImage": "",
         "explanationImage": "",
         "questionType": "input",
@@ -130,5 +130,21 @@ const quizData = [
             "2"
         ],
         "inputExplanation": "変数「$#」には、引数の数が格納されます。ここでは引数は「args1」「args2」なので、引数の数は2となります。\nなお、$0には「./testscript」が、$1には「args1」が、$2には「args2」が、$@には「args1 args2」が格納されます。"
+    },
+    {
+        "id": 6,
+        "category": "LPIC01",
+        "subCategory": "-",
+        "difficulty": 3,
+        "tags": [],
+        "question": "現在の場所をしらべるコマンドを記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "pwd",
+            "/bin/pwd"
+        ],
+        "inputExplanation": "現在の場所を表示するコマンドは、pwd、または、/bin/pwd です。"
     }
 ];
