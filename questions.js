@@ -2,7 +2,7 @@ const quizData = [
     {
         "id": 1,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "システムの標準シェルをbashにしています。全ユーザ共通のPATH変数の値を定義するファイルとして最も適切なものを選択してください。",
@@ -42,7 +42,7 @@ const quizData = [
     {
         "id": 2,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "bashを使っているとき、環境変数を表示できるコマンドをすべて選択してください。",
@@ -89,7 +89,7 @@ const quizData = [
     {
         "id": 3,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "シェル変数VARを環境変数として利用できるようにしたいとき、実行すべきコマンドを引数やオプションとともに記述してください。",
@@ -104,7 +104,7 @@ const quizData = [
     {
         "id": 4,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "bashシェル上で設定されているエイリアス定義を表示するために実行するべきコマンドを記述してください。",
@@ -119,7 +119,7 @@ const quizData = [
     {
         "id": 5,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "次のようにシェルスクリプト testscript を実行した際、変数「$#」に格納される値を記述してください。\n$ ./testscript args1 args2",
@@ -134,7 +134,7 @@ const quizData = [
     {
         "id": 6,
         "category": "LPIC01",
-        "subCategory": "-",
+        "subCategory": "102",
         "difficulty": 3,
         "tags": [],
         "question": "現在の場所をしらべるコマンドを記述してください。",
@@ -146,5 +146,52 @@ const quizData = [
             "/bin/pwd"
         ],
         "inputExplanation": "現在の場所を表示するコマンドは、pwd、または、/bin/pwd です。"
+    },
+    {
+        "id": 0,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "接続されているハードウェアデバイスを調査するために役立つコマンドとして適切なものを2つ選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "lspci",
+                "explanation": "lspicコマンドは接続されているPCIデバイスの一覧を表示します。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "cat /proc/hdd",
+                "explanation": "/proc/hdd というファイルは存在しません。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "udev",
+                "explanation": "udevは動的にデバイスファイルを作成するための仕組みです。本問題の調査には役に立つとは言えません。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "lsusb",
+                "explanation": "lsusbはUSBデバイスの情報を表示します。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "cat /proc/usb",
+                "explanation": "/proc/usb というファイルは存在しません。",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            0,
+            3
+        ]
     }
 ];
