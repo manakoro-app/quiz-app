@@ -4,57 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン | まなころ!</title>
+    <title>ログイン | まなころ</title>
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .auth-container {
-            max-width: 420px;
-            margin: 60px auto;
-            padding: 24px;
-        }
-
-        .auth-card {
-            padding: 24px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            background: #fff;
-        }
-
-        .auth-card h1 {
-            margin-top: 0;
-        }
-
-        .auth-field {
-            margin-bottom: 16px;
-        }
-
-        .auth-field label {
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .auth-field input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px;
-        }
-
-        .auth-card button {
-            width: 100%;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .auth-message {
-            margin-top: 16px;
-            min-height: 1.5em;
-        }
-
-        .auth-link {
-            margin-top: 20px;
-            text-align: center;
-        }
+        .auth-container { max-width: 440px; margin: 42px auto; padding: 16px; }
+        .auth-card { padding: 30px 28px 26px; border: 1px solid #e2e8f0; border-radius: 18px; background: #fff; box-shadow: 0 8px 28px rgba(20, 57, 94, .06); }
+        .auth-brand { text-align: center; margin-bottom: 22px; }
+        .auth-brand h1 { font-size: 29px; line-height: 1.3; margin: 0 0 6px; color: #1875b9; }
+        .auth-brand p { margin: 0; font-size: 13px; color: #64748b; }
+        .auth-heading { text-align: center; font-size: 19px; margin: 0 0 22px; color: #24364b; }
+        .auth-field { margin-bottom: 17px; }
+        .auth-field label { display: block; margin-bottom: 7px; font-size: 14px; font-weight: 600; color: #334155; }
+        .auth-field input { width: 100%; box-sizing: border-box; padding: 12px 13px; border: 1px solid #cbd5e1; border-radius: 9px; font: inherit; background: #fff; color: #1e293b; }
+        .auth-field input:focus { outline: 2px solid #93c5fd; outline-offset: 1px; border-color: #3b82f6; }
+        #loginBtn { display: block; width: 100%; padding: 12px; margin-top: 6px; border: 0; border-radius: 10px; background: #087eea; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+        #loginBtn:hover { background: #066ac5; }
+        .forgot-link { margin: 14px 0 0; text-align: center; font-size: 13px; }
+        .forgot-link a { color: #2563eb; }
+        .auth-message { margin-top: 12px; min-height: 0; text-align: center; font-size: 13px; color: #b42318; overflow-wrap: anywhere; }
+        .auth-message:empty { display: none; }
+        .invite-note { margin-top: 22px; padding-top: 18px; border-top: 1px solid #e2e8f0; text-align: center; }
+        .invite-note strong { display: block; font-size: 13px; color: #475569; margin-bottom: 5px; }
+        .invite-note p { margin: 0; color: #64748b; font-size: 12px; line-height: 1.65; }
+        @media (max-width: 480px) { .auth-container { margin: 20px auto; padding: 12px; } .auth-card { padding: 25px 20px; } }
     </style>
 </head>
 
@@ -63,44 +36,29 @@
     <main class="auth-container">
 
         <div class="auth-card">
-
-            <h1>ログイン</h1>
+            <div class="auth-brand">
+                <h1>まなころ！</h1>
+                <p>ころんとひと問、ちょこっと成長。</p>
+            </div>
+            <h2 class="auth-heading">ログイン</h2>
 
             <div class="auth-field">
                 <label for="email">メールアドレス</label>
-                <input
-                    type="email"
-                    id="email"
-                    autocomplete="email"
-                    required>
+                <input type="email" id="email" autocomplete="email" required>
             </div>
-
             <div class="auth-field">
                 <label for="password">パスワード</label>
-                <input
-                    type="password"
-                    id="password"
-                    autocomplete="current-password"
-                    required>
+                <input type="password" id="password" autocomplete="current-password" required>
             </div>
 
-            <button id="loginBtn" type="button">
-                ログイン
-            </button>
+            <button id="loginBtn" type="button">ログイン</button>
+            <p class="forgot-link"><a href="forgot-password.html">パスワードを忘れた方はこちら</a></p>
+            <div id="message" class="auth-message" role="status" aria-live="polite"></div>
 
-		<p>
-		    <a href="forgot-password.html">
-		        パスワードを忘れた方はこちら
-		    </a>
-		</p>
-
-            <div id="message" class="auth-message"></div>
-
-            <div class="auth-link">
-                まなころ!は招待制です。<br>
-                アカウントをお持ちでない方は管理者にお問い合わせください。
+            <div class="invite-note">
+                <strong>まなころは招待制です</strong>
+                <p>アカウントをお持ちでない方は<br>管理者にお問い合わせください。</p>
             </div>
-
         </div>
 
     </main>
