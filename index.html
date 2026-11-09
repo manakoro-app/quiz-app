@@ -10,6 +10,18 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>まなころ!</title>
+    <!-- 標準のSupabase招待メールはSite URLに戻るため、招待時だけ設定画面へ転送 -->
+    <script>
+      (function () {
+        const hash = new URLSearchParams(window.location.hash.slice(1));
+        const query = new URLSearchParams(window.location.search);
+        const isInvite = hash.get("type") === "invite" || query.get("type") === "invite";
+        if (!isInvite) return;
+        // 認証情報を含むURLをそのまま引き継ぐ（クエリとハッシュを保持）
+        window.location.replace("reset-password.html" + window.location.search + window.location.hash);
+      })();
+    </script>
+
 
     <link
         rel="stylesheet"
