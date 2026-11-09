@@ -4,14 +4,6 @@ let currentQuestion = null;
 
 let askedQuestions = [];
 
-let examMode = false;
-
-let examQuestions = [];
-
-let examIndex = 0;
-
-let examCorrect = 0;
-
 let sessionCorrect = 0;
 
 let sessionIncorrect = 0;
@@ -214,6 +206,43 @@ function initializeCategories() {
    フィルタ取得
 ========================== */
 
+/* ==========================
+   サブカテゴリ（既存 tags）
+   カテゴリに応じて候補を更新
+========================== */
+function getQuestionSubcategories(question) {
+    if (Array.isArray(question.tags)) {
+        return question.tags.map(tag => String(tag).trim()).filter(Boolean);
+    }
+    if (typeof question.tags === "string") {
+        return question.tags.split(",").map(tag => tag.trim()).filter(Boolean);
+    }
+    return [];
+}
+
+function updateSubcategories() {
+    const category = document.getElementById("categoryFilter").value;
+    const select = document.getElementById("tagFilter");
+    const tags = [...new Set(quizData
+        .filter(q => !category || q.category === category)
+        .flatMap(getQuestionSubcategories))].sort((a, b) => a.localeCompare(b, "ja"));
+
+    select.replaceChildren();
+    const all = document.createElement("option");
+    all.value = "";
+    all.textContent = "すべて";
+    select.appendChild(all);
+    tags.forEach(tag => {
+        const option = document.createElement("option");
+        option.value = tag;
+        option.textContent = tag;
+        select.appendChild(option);
+    });
+    // カテゴリ変更時はサブカテゴリを「すべて」に戻す
+    select.value = "";
+    updateQuestionCount();
+}
+
 function getFilteredQuestions() {
 
     const category =
@@ -263,7 +292,7 @@ function getFilteredQuestions() {
 
         if (
             tag &&
-            !q.tags.includes(tag)
+            !getQuestionSubcategories(q).includes(tag)
         ) {
             return false;
         }
@@ -1175,7 +1204,7 @@ document
     )
     .addEventListener(
         "change",
-        updateStatistics
+        updateSubcategories
     );
 
 document
@@ -1184,7 +1213,7 @@ document
     )
     .addEventListener(
         "change",
-        updateStatistics
+        updateQuestionCount
     );
 
 document
@@ -1193,7 +1222,7 @@ document
     )
     .addEventListener(
         "change",
-        updateStatistics
+        updateQuestionCount
     );
 
 document
@@ -1202,7 +1231,7 @@ document
     )
     .addEventListener(
         "change",
-        updateStatistics
+        updateQuestionCount
     );
 
 document
@@ -1211,7 +1240,7 @@ document
     )
     .addEventListener(
         "change",
-        updateStatistics
+        updateQuestionCount
     );
 
 /* ==========================
@@ -1221,6 +1250,7 @@ document
 async function initializeApp() {
 
     initializeCategories();
+    updateSubcategories();
 
 	const historyLoaded =
 	    await loadHistoryFromSupabase();
