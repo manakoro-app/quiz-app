@@ -100,5 +100,35 @@ const quizData = [
             "export VAR"
         ],
         "inputExplanation": "シェル変数を環境変数にするには、exportコマンドでエクスポートする必要があります。シェル変数を環境変数にすることで、シェルから起動されるアプリケーションはその変数を引き継ぐことができます。"
+    },
+    {
+        "id": 4,
+        "category": "LPIC01",
+        "subCategory": "-",
+        "difficulty": 3,
+        "tags": [],
+        "question": "bashシェル上で設定されているエイリアス定義を表示するために実行するべきコマンドを記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "alias"
+        ],
+        "inputExplanation": "エイリアスの定義と参照はaliasコマンドで行います。エイリアスを削除するにはunaliasコマンドを使います。"
+    },
+    {
+        "id": 5,
+        "category": "LPIC01",
+        "subCategory": "-",
+        "difficulty": 3,
+        "tags": [],
+        "question": "次のようにシェルスクリプト testscript を実行した際、変数「$#」に格納される値を記述してください。\n\n$ ./testscript args1 args2",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "2"
+        ],
+        "inputExplanation": "変数「$#」には、引数の数が格納されます。ここでは引数は「args1」「args2」なので、引数の数は2となります。\nなお、$0には「./testscript」が、$1には「args1」が、$2には「args2」が、$@には「args1 args2」が格納されます。"
     }
 ];
