@@ -10,18 +10,6 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>まなころ!</title>
-    <!-- 標準のSupabase招待メールはSite URLに戻るため、招待時だけ設定画面へ転送 -->
-    <script>
-      (function () {
-        const hash = new URLSearchParams(window.location.hash.slice(1));
-        const query = new URLSearchParams(window.location.search);
-        const isInvite = hash.get("type") === "invite" || query.get("type") === "invite";
-        if (!isInvite) return;
-        // 認証情報を含むURLをそのまま引き継ぐ（クエリとハッシュを保持）
-        window.location.replace("reset-password.html" + window.location.search + window.location.hash);
-      })();
-    </script>
-
 
     <link
         rel="stylesheet"
@@ -42,6 +30,44 @@
             cursor: pointer;
         }
         #submitAnswerBtn:disabled { opacity: .5; cursor: not-allowed; }
+	
+/* まなころ：ログイン後ホーム専用。既存クイズ機能・JSは変更しない */
+body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#eaf3ff 100%); color:#19334f; min-height:100vh; }
+.manakoro-home .manakoro-shell { max-width:1000px; padding:32px; border:1px solid #dce9f7; border-radius:24px; box-shadow:0 14px 50px rgba(33,91,150,.09); }
+.manakoro-home #startScreen { display:flex; flex-direction:column; gap:22px; }
+.manakoro-home .home-header { position:relative; margin:0; padding:30px 28px 26px; border-radius:20px; background:linear-gradient(120deg,#f0f8ff,#e4f2ff); border:1px solid #d8eafb; text-align:left; }
+.manakoro-home .home-brand { display:flex; align-items:center; gap:12px; }
+.manakoro-home .home-brand-mark { display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:14px; background:#147fe2; color:white; font-size:26px; }
+.manakoro-home .home-header h1 { margin:0; color:#1376c9; font-size:clamp(28px,4vw,36px); letter-spacing:.04em; }
+.manakoro-home .home-header .subtitle { margin:10px 0 0 54px; color:#587b9e; font-size:14px; }
+.manakoro-home #userArea { display:flex; justify-content:flex-end; align-items:center; gap:12px; flex-wrap:wrap; margin-top:20px !important; font-size:13px; color:#59738f; overflow-wrap:anywhere; }
+.manakoro-home #logoutBtn { margin-left:0 !important; background:white; color:#236eaa; border:1px solid #c7def4; padding:9px 16px; font-size:13px; font-weight:700; }
+.manakoro-home #logoutBtn:hover { background:#eaf5ff; }
+.manakoro-home .home-panel { margin:0; padding:26px; border:1px solid #dfebf7; border-radius:20px; background:white; box-shadow:0 4px 18px rgba(29,90,147,.035); }
+.manakoro-home .home-section-heading { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.manakoro-home .home-section-heading h2 { margin:3px 0 0; font-size:21px; color:#193b5d; }
+.manakoro-home .home-eyebrow { font-size:10px; font-weight:800; letter-spacing:.15em; color:#4b9bdc; }
+.manakoro-home .home-section-icon { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; color:#167ed8; background:#eaf5ff; font-size:22px; }
+.manakoro-home .stats-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.manakoro-home .stat-card { min-width:0; padding:19px 10px; border:1px solid #e1edfa; background:#f5faff; border-radius:14px; }
+.manakoro-home .stat-title { color:#597b9b; margin-bottom:8px; font-size:13px; }
+.manakoro-home .stat-value { color:#1179d1; font-size:clamp(21px,3vw,29px); }
+.manakoro-home .filter-area { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:18px; row-gap:4px; }
+.manakoro-home .filter-area > .home-section-heading { grid-column:1/-1; }
+.manakoro-home .home-field { min-width:0; margin-bottom:14px; }
+.manakoro-home .home-field label { margin-bottom:8px; color:#2d5072; font-size:14px; }
+.manakoro-home .home-field select { min-height:46px; background:#f9fcff; border:1px solid #cbdff2; border-radius:10px; color:#274562; font-size:14px; }
+.manakoro-home .home-field select:focus { outline:2px solid #88c2ff; outline-offset:1px; }
+.manakoro-home .question-limit-note { color:#7890a6; font-size:12px; line-height:1.5; }
+.manakoro-home .home-checkbox { margin:0 0 12px; padding:12px 14px; align-items:center; border:1px solid #dcebf8; border-radius:10px; background:#f7fbff; }
+.manakoro-home .home-checkbox label { display:flex; align-items:center; gap:9px; font-size:14px; color:#355776; }
+.manakoro-home .home-checkbox input { accent-color:#1684e8; width:17px; height:17px; }
+.manakoro-home #startBtn { grid-column:1/-1; width:100%; min-height:54px; margin-top:12px; border-radius:12px; background:#0d82ea; color:white; font-size:17px; font-weight:800; box-shadow:0 7px 17px rgba(18,126,221,.17); }
+.manakoro-home #startBtn:hover { background:#086fce; }
+.manakoro-home .home-footer { margin-top:30px; text-align:center; color:#8aa1b7; }
+.manakoro-home .home-footer hr { border:0; border-top:1px solid #e3edf7; margin-bottom:16px; }
+@media(max-width:650px) { body.manakoro-home {padding:10px;} .manakoro-home .manakoro-shell {padding:14px; border-radius:18px;} .manakoro-home .home-header {padding:22px 18px;} .manakoro-home .home-header .subtitle {margin-left:0;} .manakoro-home #userArea {justify-content:flex-start;} .manakoro-home .home-panel {padding:18px;} .manakoro-home .stats-grid {grid-template-columns:repeat(2,minmax(0,1fr));} .manakoro-home .filter-area {grid-template-columns:1fr;} }
+
 	</style>
 
 <link rel="icon" href="./favicon.ico" sizes="any">
@@ -52,9 +78,9 @@
 
 </head>
 
-<body>
+<body class="manakoro-home">
 
-    <div class="container">
+    <div class="container manakoro-shell">
 
         <!-- ===================== -->
         <!-- スタート画面 -->
@@ -62,9 +88,9 @@
 
         <section id="startScreen">
 
-            <header>
+            <header class="home-header">
 
-                <h1>まなころ!</h1>
+                <div class="home-brand"><span class="home-brand-mark" aria-hidden="true">✦</span><h1>まなころ!</h1></div>
 
                 <p class="subtitle">
 
@@ -83,9 +109,9 @@
 
             <section
                 id="statsArea"
-                class="stats-area">
+                class="stats-area home-panel">
 
-                <h2>学習統計</h2>
+                <div class="home-section-heading"><div><span class="home-eyebrow">YOUR PROGRESS</span><h2>学習統計</h2></div><span class="home-section-icon" aria-hidden="true">↗</span></div>
 
                 <div class="stats-grid">
 
@@ -191,13 +217,11 @@
 
             <!-- 出題設定 -->
 
-            <section class="filter-area">
+            <section class="filter-area home-panel">
 
-                <h2>
-                    出題設定
-                </h2>
+                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon" aria-hidden="true">✎</span></div>
 
-                <div class="filter-group">
+                <div class="filter-group home-field">
 
                     <label for="categoryFilter">
                         カテゴリ
@@ -213,7 +237,7 @@
 
                 </div>
 
-                <div class="filter-group">
+                <div class="filter-group home-field">
 
                     <label for="tagFilter">
                         サブカテゴリ
@@ -230,7 +254,7 @@
 
                 </div>
 
-                <div class="filter-group">
+                <div class="filter-group home-field">
 
                     <label for="difficultyFilter">
                         難易度
@@ -266,7 +290,7 @@
 
                 </div>
 
-                <div class="checkbox-area">
+                <div class="checkbox-area home-checkbox">
 
                     <label>
 
@@ -280,7 +304,7 @@
 
                 </div>
 
-                <div class="checkbox-area">
+                <div class="checkbox-area home-checkbox">
 
                     <label>
 
@@ -294,7 +318,7 @@
 
                 </div>
 
-                <div class="filter-group">
+                <div class="filter-group home-field">
                     <label for="questionLimit">出題数</label>
                     <select id="questionLimit">
                         <option value="5">5問</option>
@@ -306,7 +330,7 @@
                     <p class="question-limit-note">対象問題が指定数より少ない場合は、対象の全問題を出題します。</p>
                 </div>
 
-                <button id="startBtn">
+                <button id="startBtn" class="home-start-btn">
 
                     学習開始
 
@@ -449,7 +473,7 @@
 
         <!-- フッター -->
 
-        <footer>
+        <footer class="home-footer">
 
             <hr>
 
