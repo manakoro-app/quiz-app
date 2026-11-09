@@ -580,12 +580,18 @@ shuffledChoices.forEach(
         button.className =
             "choice-btn";
 
+        // 表示順に A～H を付与（元データの並び順とは独立）
+        const choiceLetter = String.fromCharCode(65 + index);
+        const letterSpan = document.createElement("span");
+        letterSpan.className = "choice-letter";
+        letterSpan.textContent = choiceLetter + ". ";
+        button.appendChild(letterSpan);
+
         if (
             choice.type === "text"
         ) {
 
-            button.textContent =
-                choice.value;
+            button.appendChild(document.createTextNode(choice.value));
 
         }
         else if (
@@ -687,10 +693,10 @@ function finishAnswer(selectedIndexes) {
         );
 
     const selectedNumbers = currentQuestion.shuffledChoices
-        .map((choice, i) => selectedIndexes.includes(choice.originalIndex) ? i + 1 : null)
+        .map((choice, i) => selectedIndexes.includes(choice.originalIndex) ? String.fromCharCode(65 + i) : null)
         .filter(n => n !== null);
     const correctNumbers = currentQuestion.shuffledChoices
-        .map((choice, i) => correctIndexes.includes(choice.originalIndex) ? i + 1 : null)
+        .map((choice, i) => correctIndexes.includes(choice.originalIndex) ? String.fromCharCode(65 + i) : null)
         .filter(n => n !== null);
 
     if (isCorrect) {
@@ -720,8 +726,8 @@ function finishAnswer(selectedIndexes) {
     }
 
     let html = "";
-    html += "あなたの回答 : " + selectedNumbers.join("、") + "番<br><br>";
-    html += "正解 : " + correctNumbers.join("、") + "番<br><br>";
+    html += "あなたの回答 : " + selectedNumbers.join("、") + "<br><br>";
+    html += "正解 : " + correctNumbers.join("、") + "<br><br>";
     html += "<strong>各選択肢の解説</strong><br><br>";
 
 	currentQuestion.shuffledChoices
