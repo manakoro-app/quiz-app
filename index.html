@@ -31,7 +31,7 @@
         }
         #submitAnswerBtn:disabled { opacity: .5; cursor: not-allowed; }
 	
-/* まなぼん！：ログイン後ホーム専用。既存クイズ機能・JSは変更しない */
+/* まなぼ：ログイン後ホーム専用。既存クイズ機能・JSは変更しない */
 body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#eaf3ff 100%); color:#19334f; min-height:100vh; }
 .manakoro-home .manakoro-shell { max-width:1000px; padding:32px; border:1px solid #dce9f7; border-radius:24px; box-shadow:0 14px 50px rgba(33,91,150,.09); }
 .manakoro-home #startScreen { display:flex; flex-direction:column; gap:22px; }
@@ -85,6 +85,19 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 .manakoro-home #returnHomeBtn:hover { background:#eff7ff; }
 @media(max-width:650px) { .manakoro-home #finishScreen { padding:20px 16px; margin:12px auto 24px; border-radius:18px; } .manakoro-home #finishResult { padding:18px; font-size:15px; } .manakoro-home .result-actions { grid-template-columns:1fr; gap:10px; } }
 
+
+/* Manabon branding: simple CSS book icon, compatible with TeraPad. */
+.manakoro-home .home-brand-mark { width:52px; height:52px; flex:0 0 52px; border-radius:16px; background:linear-gradient(145deg,#0b87ee,#1767c5); box-shadow:0 6px 14px rgba(20,110,205,.18); }
+.manakoro-home .book-icon { position:relative; display:block; width:28px; height:23px; }
+.manakoro-home .book-icon:before,.manakoro-home .book-icon:after { content:""; position:absolute; top:2px; width:12px; height:18px; background:#fff; border-radius:3px 2px 2px 3px; }
+.manakoro-home .book-icon:before { left:1px; transform:skewY(7deg); }
+.manakoro-home .book-icon:after { right:1px; transform:skewY(-7deg); border-radius:2px 3px 3px 2px; }
+.manakoro-home .home-brand-title { display:flex; flex-direction:column; gap:3px; }
+.manakoro-home .home-brand-label { font-size:10px; font-weight:700; letter-spacing:.11em; color:#7195b7; }
+.manakoro-home .home-header .subtitle { margin-left:64px; margin-top:8px; }
+.manakoro-home .home-section-icon { font-size:12px; font-weight:800; letter-spacing:.04em; }
+@media(max-width:650px) { .manakoro-home .home-header .subtitle { margin-left:0; } .manakoro-home .home-brand-mark { width:46px; height:46px; flex-basis:46px; } }
+
 	</style>
 
 <link rel="icon" href="./favicon.ico" sizes="any">
@@ -107,7 +120,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 
             <header class="home-header">
 
-                <div class="home-brand"><h1>まなぼん！</h1></div>
+                <div class="home-brand"><span class="home-brand-mark" aria-hidden="true"><span class="book-icon"></span></span><div class="home-brand-title"><h1>まなぼん！</h1><span class="home-brand-label">MANABON / LEARNING QUIZ</span></div></div>
 
                 <p class="subtitle">
 
@@ -128,7 +141,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
                 id="statsArea"
                 class="stats-area home-panel">
 
-                <div class="home-section-heading"><div><span class="home-eyebrow">YOUR PROGRESS</span><h2>学習統計</h2></div></div>
+                <div class="home-section-heading"><div><span class="home-eyebrow">YOUR PROGRESS</span><h2>学習統計</h2></div><span class="home-section-icon" aria-hidden="true">01</span></div>
 
                 <div class="stats-grid">
 
@@ -236,7 +249,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 
             <section class="filter-area home-panel">
 
-                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div></div>
+                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon" aria-hidden="true">GO</span></div>
 
                 <div class="filter-group home-field">
 
