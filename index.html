@@ -128,12 +128,12 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 }
 
 	
-/* Settings icon: CSS-only sliders; no special Unicode symbols. */
-.manakoro-home .settings-sliders { display:flex; flex-direction:column; justify-content:center; gap:5px; width:21px; height:22px; }
-.manakoro-home .settings-sliders i { position:relative; display:block; width:21px; height:2px; background:#167ed8; border-radius:2px; }
-.manakoro-home .settings-sliders i:after { content:""; position:absolute; top:-3px; left:5px; width:7px; height:7px; border:2px solid #167ed8; border-radius:50%; background:#eaf5ff; }
-.manakoro-home .settings-sliders i:nth-child(2):after { left:12px; }
-.manakoro-home .settings-sliders i:nth-child(3):after { left:2px; }
+/* Settings icon: compact CSS-only checklist, TeraPad-friendly. */
+.manakoro-home .settings-checklist { display:flex; flex-direction:column; justify-content:center; gap:4px; width:22px; height:22px; }
+.manakoro-home .settings-checklist i { display:block; position:relative; width:22px; height:4px; }
+.manakoro-home .settings-checklist i:before { content:""; position:absolute; left:0; top:0; width:5px; height:5px; border:1.5px solid #167ed8; border-radius:2px; box-sizing:border-box; }
+.manakoro-home .settings-checklist i:after { content:""; position:absolute; left:9px; top:1px; width:13px; height:3px; border-radius:2px; background:#167ed8; }
+.manakoro-home .settings-checklist i:first-child:before { width:6px; height:4px; border:0; border-left:2px solid #167ed8; border-bottom:2px solid #167ed8; border-radius:0; transform:rotate(-45deg); top:-1px; left:0; }
 
 </style>
 
@@ -286,7 +286,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 
             <section class="filter-area home-panel">
 
-                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon home-settings-icon" aria-hidden="true"><span class="settings-sliders"><i></i><i></i><i></i></span></span></div>
+                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon home-settings-icon" aria-hidden="true"><span class="settings-checklist"><i></i><i></i><i></i></span></span></div>
 
                 <div class="filter-group home-field">
 
