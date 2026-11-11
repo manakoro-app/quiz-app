@@ -127,7 +127,15 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
   .manakoro-home #userEmail { text-align:left; }
 }
 
-	</style>
+	
+/* Settings icon: CSS-only sliders; no special Unicode symbols. */
+.manakoro-home .settings-sliders { display:flex; flex-direction:column; justify-content:center; gap:5px; width:21px; height:22px; }
+.manakoro-home .settings-sliders i { position:relative; display:block; width:21px; height:2px; background:#167ed8; border-radius:2px; }
+.manakoro-home .settings-sliders i:after { content:""; position:absolute; top:-3px; left:5px; width:7px; height:7px; border:2px solid #167ed8; border-radius:50%; background:#eaf5ff; }
+.manakoro-home .settings-sliders i:nth-child(2):after { left:12px; }
+.manakoro-home .settings-sliders i:nth-child(3):after { left:2px; }
+
+</style>
 
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./icon-32.png">
@@ -278,7 +286,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 
             <section class="filter-area home-panel">
 
-                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon" aria-hidden="true">GO</span></div>
+                <div class="home-section-heading"><div><span class="home-eyebrow">START LEARNING</span><h2>出題設定</h2></div><span class="home-section-icon home-settings-icon" aria-hidden="true"><span class="settings-sliders"><i></i><i></i><i></i></span></span></div>
 
                 <div class="filter-group home-field">
 
