@@ -68,6 +68,23 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 .manakoro-home .home-footer hr { border:0; border-top:1px solid #e3edf7; margin-bottom:16px; }
 @media(max-width:650px) { body.manakoro-home {padding:10px;} .manakoro-home .manakoro-shell {padding:14px; border-radius:18px;} .manakoro-home .home-header {padding:22px 18px;} .manakoro-home .home-header .subtitle {margin-left:0;} .manakoro-home #userArea {justify-content:flex-start;} .manakoro-home .home-panel {padding:18px;} .manakoro-home .stats-grid {grid-template-columns:repeat(2,minmax(0,1fr));} .manakoro-home .filter-area {grid-template-columns:1fr;} }
 
+
+/* Learning result screen: presentation only; IDs and quiz logic unchanged. */
+.manakoro-home #finishScreen { max-width:760px; margin:20px auto 36px; padding:32px; border:1px solid #dce9f7; border-radius:22px; background:#fff; box-shadow:0 12px 36px rgba(33,91,150,.08); color:#19334f; }
+.manakoro-home .result-header { text-align:center; padding:14px 8px 24px; }
+.manakoro-home .result-eyebrow { margin:0 0 12px; color:#227fc9; font-size:13px; font-weight:700; letter-spacing:.08em; }
+.manakoro-home .result-header h2 { margin:0 0 12px; color:#1376c9; font-size:clamp(24px,4vw,32px); line-height:1.4; }
+.manakoro-home .result-description { margin:0; color:#66829d; font-size:14px; }
+.manakoro-home #finishResult { padding:24px 28px; background:#f2f8ff; border:1px solid #dceafb; border-radius:16px; color:#2d5274; font-size:16px; line-height:2.15; }
+.manakoro-home #finishResult h3 { margin:0 0 12px; padding-bottom:12px; border-bottom:1px solid #d6e7f7; color:#155c99; font-size:20px; }
+.manakoro-home .result-actions { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
+.manakoro-home .result-actions button { width:100%; min-height:52px; margin:0; padding:12px 14px; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; }
+.manakoro-home #restartBtn { background:#0d82ea; color:white; border:1px solid #0d82ea; }
+.manakoro-home #restartBtn:hover { background:#086fce; }
+.manakoro-home #returnHomeBtn { background:white; color:#166ba9; border:1px solid #b9d7f1; }
+.manakoro-home #returnHomeBtn:hover { background:#eff7ff; }
+@media(max-width:650px) { .manakoro-home #finishScreen { padding:20px 16px; margin:12px auto 24px; border-radius:18px; } .manakoro-home #finishResult { padding:18px; font-size:15px; } .manakoro-home .result-actions { grid-template-columns:1fr; gap:10px; } }
+
 	</style>
 
 <link rel="icon" href="./favicon.ico" sizes="any">
@@ -440,35 +457,17 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
         <!-- 終了画面 -->
         <!-- ===================== -->
 
-        <section
-            id="finishScreen"
-            style="display:none;">
-
-            <h2>
-
-                学習完了！お疲れさまでした！
-
-            </h2>
-
-            <div
-                id="finishResult">
-
+        <section id="finishScreen" style="display:none;">
+            <div class="result-header">
+                <p class="result-eyebrow">LEARNING RESULT</p>
+                <h2>学習完了！お疲れさまでした！</h2>
+                <p class="result-description">今回の学習結果を振り返りましょう。</p>
             </div>
-
-            <button
-                id="restartBtn">
-
-                もう一度学習する
-
-            </button>
-
-            <button
-                id="returnHomeBtn">
-
-                スタート画面へ戻る
-
-            </button>
-
+            <div id="finishResult"></div>
+            <div class="result-actions">
+                <button id="restartBtn" type="button">もう一度学習する</button>
+                <button id="returnHomeBtn" type="button">スタート画面へ戻る</button>
+            </div>
         </section>
 
         <!-- フッター -->
