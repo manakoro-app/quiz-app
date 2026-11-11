@@ -98,6 +98,35 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
 .manakoro-home .home-section-icon { font-size:12px; font-weight:800; letter-spacing:.04em; }
 @media(max-width:650px) { .manakoro-home .home-header .subtitle { margin-left:0; } .manakoro-home .home-brand-mark { width:46px; height:46px; flex-basis:46px; } }
 
+
+/* Home header refinement: shorter header and aligned account actions. */
+@media (min-width: 651px) {
+  .manakoro-home .home-header {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:auto auto;
+    align-items:center;
+    column-gap:24px;
+    row-gap:8px;
+    padding:24px 28px;
+  }
+  .manakoro-home .home-brand { grid-column:1; grid-row:1; }
+  .manakoro-home .home-header .subtitle { grid-column:1; grid-row:2; margin:0 0 0 64px; }
+  .manakoro-home #userArea { grid-column:2; grid-row:1 / 3; margin:0 !important; justify-content:flex-end; align-self:center; max-width:320px; }
+}
+.manakoro-home #userEmail { overflow-wrap:anywhere; text-align:right; }
+.manakoro-home .home-stats-icon { display:flex; align-items:center; justify-content:center; }
+.manakoro-home .chart-bars { height:21px; display:flex; align-items:flex-end; gap:3px; }
+.manakoro-home .chart-bars i { display:block; width:5px; border-radius:2px 2px 0 0; background:#167ed8; }
+.manakoro-home .chart-bars i:nth-child(1) { height:9px; }
+.manakoro-home .chart-bars i:nth-child(2) { height:15px; }
+.manakoro-home .chart-bars i:nth-child(3) { height:21px; }
+@media (max-width:650px) {
+  .manakoro-home .home-header { padding:20px 18px; }
+  .manakoro-home #userArea { margin-top:14px !important; justify-content:flex-start; }
+  .manakoro-home #userEmail { text-align:left; }
+}
+
 	</style>
 
 <link rel="icon" href="./favicon.ico" sizes="any">
@@ -141,7 +170,7 @@ body.manakoro-home { background:linear-gradient(145deg,#edf6ff 0%,#f6faff 50%,#e
                 id="statsArea"
                 class="stats-area home-panel">
 
-                <div class="home-section-heading"><div><span class="home-eyebrow">YOUR PROGRESS</span><h2>学習統計</h2></div><span class="home-section-icon" aria-hidden="true">01</span></div>
+                <div class="home-section-heading"><div><span class="home-eyebrow">YOUR PROGRESS</span><h2>学習統計</h2></div><span class="home-section-icon home-stats-icon" aria-hidden="true"><span class="chart-bars"><i></i><i></i><i></i></span></span></div>
 
                 <div class="stats-grid">
 
