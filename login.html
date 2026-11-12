@@ -73,6 +73,13 @@
         const message =
             document.getElementById("message");
 
+        const loginParams = new URLSearchParams(window.location.search);
+        if (loginParams.has("setup_required")) {
+            message.textContent = "初回パスワード設定が完了していません。招待メールのリンクから設定してください。リンクが無効な場合は管理者に再招待をご依頼ください。";
+        } else if (loginParams.has("status_check_failed")) {
+            message.textContent = "アカウントの設定状態を確認できませんでした。通信状況を確認し、しばらくしてから再度お試しください。";
+        }
+
         loginBtn.addEventListener(
             "click",
             async () => {
@@ -108,6 +115,22 @@
                 }
 
                 if (data.session) {
+                    // ログイン後も初回設定完了を確認する。
+                    const { data: setupStatus, error: setupError } =
+                        await supabaseClient
+                            .from("user_setup_status")
+                            .select("password_setup_completed")
+                            .eq("user_id", data.user.id)
+                            .maybeSingle();
+
+                    if (setupError || !setupStatus ||
+                        setupStatus.password_setup_completed !== true) {
+                        await supabaseClient.auth.signOut({ scope: "local" });
+                        message.textContent = setupError
+                            ? "設定状態を確認できませんでした。通信状況を確認して再度お試しください。"
+                            : "初回パスワード設定が完了していません。招待メールのリンクから設定してください。リンクが無効な場合は管理者に再招待をご依頼ください。";
+                        return;
+                    }
                     window.location.replace("index.html");
                 }
             }

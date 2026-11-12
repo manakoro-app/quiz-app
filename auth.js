@@ -1,14 +1,14 @@
 // ==========================
-// Supabase Auth ‹¤’Êİ’è
+// Supabase Auth å…±é€šè¨­å®š
 // ==========================
 
-// ‡@ Supabase ‚Ì Project URL ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
+// â‘  Supabase ã® Project URL ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„
 const SUPABASE_URL = "https://jtsdpgujzyxnsfagsuim.supabase.co";
 
-// ‡A Supabase ‚Ì Publishable keyisb_publishable_...j‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
+// â‘¡ Supabase ã® Publishable keyï¼ˆsb_publishable_...ï¼‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_H9an-6TYw32f18GDAqR-mA_3HZ3Db_N";
 
-// Supabase ƒNƒ‰ƒCƒAƒ“ƒg‚ğì¬
+// Supabase ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’ä½œæˆ
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
@@ -16,7 +16,7 @@ const supabaseClient = supabase.createClient(
 
 
 // ==========================
-// Œ»İ‚Ìƒy[ƒW–¼‚ğæ“¾
+// ç¾åœ¨ã®ãƒšãƒ¼ã‚¸åã‚’å–å¾—
 // ==========================
 
 function getCurrentPage() {
@@ -32,7 +32,7 @@ function getCurrentPage() {
 
 
 // ==========================
-// ƒNƒCƒY‰æ–Ê‚ğƒƒOƒCƒ“•K{‚É‚·‚é
+// ã‚¯ã‚¤ã‚ºç”»é¢ã‚’ãƒ­ã‚°ã‚¤ãƒ³å¿…é ˆã«ã™ã‚‹
 // ==========================
 
 async function protectQuizPage() {
@@ -46,8 +46,8 @@ async function protectQuizPage() {
         return;
     }
 
-    // SupabaseƒT[ƒo[‘¤‚Å
-    // –{“–‚Éƒ†[ƒU[‚ª‘¶İ‚·‚é‚©Šm”F
+    // Supabaseã‚µãƒ¼ãƒãƒ¼å´ã§
+    // æœ¬å½“ã«ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒå­˜åœ¨ã™ã‚‹ã‹ç¢ºèª
     const {
         data: { user },
         error
@@ -55,10 +55,10 @@ async function protectQuizPage() {
         await supabaseClient.auth.getUser();
 
 
-    // ƒ†[ƒU[íœÏ‚İEƒZƒbƒVƒ‡ƒ“–³Œø‚È‚Ç
+    // ãƒ¦ãƒ¼ã‚¶ãƒ¼å‰Šé™¤æ¸ˆã¿ãƒ»ã‚»ãƒƒã‚·ãƒ§ãƒ³ç„¡åŠ¹ãªã©
     if (error || !user) {
 
-        // ƒuƒ‰ƒEƒU‚Éc‚Á‚½ŒÃ‚¢ƒZƒbƒVƒ‡ƒ“‚àíœ
+        // ãƒ–ãƒ©ã‚¦ã‚¶ã«æ®‹ã£ãŸå¤ã„ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚‚å‰Šé™¤
         await supabaseClient.auth.signOut({
             scope: "local"
         });
@@ -70,13 +70,31 @@ async function protectQuizPage() {
         return;
     }
 
-    // ”FØŠm”F‚ª¬Œ÷‚µ‚½‚ç‰æ–Ê‚ğ•\¦
+    // åˆå›ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰è¨­å®šã®å®Œäº†çŠ¶æ…‹ã‚’Supabaseã‹ã‚‰ç¢ºèªã™ã‚‹ã€‚
+    // æœªç™»éŒ²ãƒ»æœªå®Œäº†ãƒ»é€šä¿¡ã‚¨ãƒ©ãƒ¼ã®å ´åˆã¯ã‚¯ã‚¤ã‚ºç”»é¢ã‚’è¡¨ç¤ºã—ãªã„ã€‚
+    const { data: setupStatus, error: setupError } =
+        await supabaseClient
+            .from("user_setup_status")
+            .select("password_setup_completed")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+    if (setupError || !setupStatus ||
+        setupStatus.password_setup_completed !== true) {
+        console.error("User setup verification failed", setupError);
+        const reason = setupError ? "status_check_failed=1" : "setup_required=1";
+        await supabaseClient.auth.signOut({ scope: "local" });
+        window.location.replace("login.html?" + reason);
+        return;
+    }
+
+    // èªè¨¼ç¢ºèªãŒæˆåŠŸã—ãŸã‚‰ç”»é¢ã‚’è¡¨ç¤º
 	document.documentElement.classList.remove(
 	    "auth-checking"
 	);
 
 
-    // ƒƒOƒCƒ“’†ƒ[ƒ‹ƒAƒhƒŒƒX•\¦
+    // ãƒ­ã‚°ã‚¤ãƒ³ä¸­ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹è¡¨ç¤º
     const userEmail =
         document.getElementById(
             "userEmail"
@@ -90,7 +108,7 @@ async function protectQuizPage() {
     }
 
 
-    // ƒƒOƒAƒEƒgƒ{ƒ^ƒ“
+    // ãƒ­ã‚°ã‚¢ã‚¦ãƒˆãƒœã‚¿ãƒ³
     const logoutBtn =
         document.getElementById(
             "logoutBtn"
@@ -113,7 +131,7 @@ async function protectQuizPage() {
                 if (signOutError) {
 
                     alert(
-                        "ƒƒOƒAƒEƒg‚É¸”s‚µ‚Ü‚µ‚½: " +
+                        "ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã«å¤±æ•—ã—ã¾ã—ãŸ: " +
                         signOutError.message
                     );
 
@@ -133,9 +151,9 @@ async function protectQuizPage() {
 }
 
 // ==========================
-// ƒƒOƒCƒ“Ï‚İ‚Ìê‡
-// login/register‰æ–Ê‚©‚ç
-// index.html‚Ö–ß‚·
+// ãƒ­ã‚°ã‚¤ãƒ³æ¸ˆã¿ã®å ´åˆ
+// login/registerç”»é¢ã‹ã‚‰
+// index.htmlã¸æˆ»ã™
 // ==========================
 
 async function redirectIfLoggedIn() {
@@ -160,17 +178,29 @@ async function redirectIfLoggedIn() {
 
 
     if (!error && user) {
+        const { data: setupStatus, error: setupError } =
+            await supabaseClient
+                .from("user_setup_status")
+                .select("password_setup_completed")
+                .eq("user_id", user.id)
+                .maybeSingle();
 
-        window.location.replace(
-            "index.html"
-        );
-
+        if (!setupError && setupStatus &&
+            setupStatus.password_setup_completed === true) {
+            window.location.replace("index.html");
+        } else {
+            const reason = setupError ? "status_check_failed=1" : "setup_required=1";
+            await supabaseClient.auth.signOut({ scope: "local" });
+            if (currentPage !== "login.html" || !window.location.search.includes(reason)) {
+                window.location.replace("login.html?" + reason);
+            }
+        }
     }
 
 }
 
 // ==========================
-// Às
+// å®Ÿè¡Œ
 // ==========================
 
 protectQuizPage();
