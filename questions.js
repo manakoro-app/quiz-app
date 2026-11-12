@@ -586,5 +586,111 @@ const quizData = [
         "answerIndexes": [
             2
         ]
+    },
+    {
+        "id": 17,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "ブートローダとしてGRUBをインストールしようとしています。ハードディスク /dev/sda の MBRにGRUBをインストールするコマンドを、適切な引数ととともに記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "grub-install /dev/sda"
+        ],
+        "inputExplanation": "GURBをインストールするにはgrub-installコマンドを使います。引数として/dev/sdaを指定すると、/dev/sdaのMBRにGRUBをインストールします。"
+    },
+    {
+        "id": 18,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "GRUB2の設定では、/etc/default/grubに設定を記述し、______コマンドを実行すると、設定がgrub.cfgファイルに書き込まれます。下線部に当てはまるコマンドを記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "grub-mkconfig"
+        ],
+        "inputExplanation": "GRUB2の設定ファイルは/boot/grub/grub.cfgですが、直接編集しません。/etc/default/grubで設定を行い、grub-mkconfigコマンドを実行すると/boot/grub/gurb.cfgが生成されます。"
+    },
+    {
+        "id": 19,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "/bin/bashが必要とする共有ライブラリの一覧を表示するコマンドを、引数とともに記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "ldd /bin/bash"
+        ],
+        "inputExplanation": "lddコマンドを使って、プログラムの実行に必要な共有ライブラリを表示できます。引数にはプログラムファイル（コマンドの絶対パス）を指定します。"
+    },
+    {
+        "id": 20,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "Ubunthでサーバを運用しています。メールサーバのPostfixをインストールしたとき、対話的なインターフェースで基本設定を済ませましたが、設定にミスがありました。そこで、インストール時に自動的に実行される、対話的な設定プログラムを再度実行して設定をしようとしています。どのコマンドをつたえばよいか選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "dpkg --setup postfix",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "apt reconfig postfix",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "dpkg --reconfig postfix",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "apt setup postfix",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "dpkg --reconfigure postfix",
+                "explanation": "UbuntuやDebian GNU/Linuxでパッケージをインストールした際の対話的な基本設定は、dpkg-reconfigureコマンドを実行することで設定し直せます。",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            4
+        ]
+    },
+    {
+        "id": 21,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "Debian GNU/Linux で APT を使ってパッケージ管理をしています。パッケージ情報のキャッシュを更新するためには、apt-get____________コマンドを実行します。下線部に当てはまるサブコマンドを記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "update"
+        ],
+        "inputExplanation": "apt-get update を実行すると、パッケージ情報や依存関係情報のキャッシュが最新の状態に更新されます。"
     }
 ];
