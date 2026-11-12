@@ -148,7 +148,7 @@ const quizData = [
         "inputExplanation": "現在の場所を表示するコマンドは、pwd、または、/bin/pwd です。"
     },
     {
-        "id": 0,
+        "id": 7,
         "category": "LPIC01",
         "subCategory": "101",
         "difficulty": 3,
@@ -191,6 +191,146 @@ const quizData = [
         ],
         "answerIndexes": [
             0,
+            3
+        ]
+    },
+    {
+        "id": 8,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "ロードされているカーネルモジュールを表示するコマンドとして適切なものを2つ選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "lsmod",
+                "explanation": "ロードされているカーネルモジュールは lsmodコマンドによって確認できます。 また /proc/modulesファイルをcatしても同様の情報が得られます。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "insmod",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "kmod",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "cat /proc/modules",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "cat /dev/modules",
+                "explanation": "",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            0,
+            3
+        ]
+    },
+    {
+        "id": 9,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "起動時にカーネルが出力するメッセージをシステム起動後に確認するコマンドを２つ選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "kmesg",
+                "explanation": "kmesgというコマンドは存在しません。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "systemctl",
+                "explanation": "systemctlはsystemdの管理コマンドです。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "dmesg",
+                "explanation": "dmesgコマンドやjournalctlコマンドを使うと、起動時に画面表示されるメッセージ等を確認できます。これにより、カーネルがハードウェアをどうのように認識しているかを把握できます。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "journalctl",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "lsmod",
+                "explanation": "lsmodはロードしているカーネルモジュールの一覧を表示するコマンドです。",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            2,
+            3
+        ]
+    },
+    {
+        "id": 10,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "電源を入れてからOSが起動するまでのブート手順として適切に並んでいるものを選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "BIOS、ブートローダ、init、カーネル",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "BIOS、カーネル、ブートローダ、init",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "ブートローダ、BIOS、カーネル、init",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "BIOS、ブートローダ、カーネル、init",
+                "explanation": "システムの電源を入れるとBIOSが起動し、そこからGRUBなどのブートローダが起動します。ブートローダはカーネルをロードし、カーネルはシステム初期化後にinitプロセスを実行します。最近では、BIOSの代わりにUEFIが使われることが多く、initプロセスの代わりにsystemdが動作しているディストリビューションも一般的です。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "ブートローダ、BIOS、init、カーネル",
+                "explanation": "",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
             3
         ]
     }
