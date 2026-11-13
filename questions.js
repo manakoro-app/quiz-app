@@ -692,5 +692,173 @@ const quizData = [
             "update"
         ],
         "inputExplanation": "apt-get update を実行すると、パッケージ情報や依存関係情報のキャッシュが最新の状態に更新されます。"
+    },
+    {
+        "id": 22,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "apt-cahfe コマンドを使って、zsh パッケージが依存するパッケージの情報を表示しようとしています。っ下線部に当てはまるサブコマンドを記述してください。\n\n$ apt-cache ______________ zsh",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "depends"
+        ],
+        "inputExplanation": "apt-cache depends で、指定したパッケージが依存するペッケージの情報を表示します。指定したパッケージに依存するパッケージの情報は、apt-cache rdepends で検索します。"
+    },
+    {
+        "id": 23,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "WebサイトからダウンロードしたPRMファイルをインストールしようとしたところ、次のように表示されました。\n\n#rpm -ivh vsftpd-3.0.2-22.el7.x86_64.rpm\nPreparing…\n#############[100%]\npackage vsftpd-3.0.2-25.el7.x86_64(which is newer than vsftpd-3.0.2-22.el7.x86_64)is already installed\nfile /usr/sbin/vsftpd from install of vsftpd-3.0.2-22.el7.x86_64 conflicts with file from package vsftpd-3.0.2-25.el7.x86_64\n# rpm -q vsftpd\nvsftpd-3.0.2-25.el7.x86_64\n\n上記に関する説明として適切なものを選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "指定した vsftpd パッケージのインストールは正常に終了した",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "より新しいバージョンのvsftpdパッケージが既にインストールされていた",
+                "explanation": "出力メッセージには「～ is alrady installed」 とあるので、すでに同名のパッケージがインストールされていたことがわかります。インストール済のパッケージバージョンは「3.0.2-25.el7」であり、これはインストールしようとしたバージョン「3.0.2-22.el7」よりも新しいです。アーキテクチャは「x86_64」で、インストール済みのパッケージのアーキテクチャも同じです。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "指定したvsftpdパッケージはインストールされたが依存関係のエラーが発生した",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "依存関係のエラーが発生したためにインストール作業は失敗した",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "インストールしようとしたパッケージのアーキテクチャがOSのアーキテクチャと一致しなかった",
+                "explanation": "",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            1
+        ]
+    },
+    {
+        "id": 24,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "RPMパッケージ管理システムにおいて、インストール済みのlvパッケージがどのようなパッケージに依存しているかを表示するコマンドを選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "rpm -ql lv",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "rpm -qR lv",
+                "explanation": "rpmコマンドであるパッケージが依存しているパッケージやライブラリの情報を表示するには、-q（--query）オプションに加えて-R（--requires）オプションを指定します。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "rpm -qP lv",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "rpm -qlp lv",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "rpm -qd lv",
+                "explanation": "",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            1
+        ]
+    },
+    {
+        "id": 25,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "yum ＿＿＿＿＿＿＿＿＿＿＿＿コマンドを実行すると、システムの全パッケージに対するアップデートを実行したときに対象となるパッケージの情報表示のみを行います。下線部に当てはまるサブコマンドを記述してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "input",
+        "acceptedAnswers": [
+            "check-update"
+        ],
+        "inputExplanation": "yum check-updateを実行すると、yum updateを実行したときにアップデート対象となるパッケージの一覧を表示します。"
+    },
+    {
+        "id": 26,
+        "category": "LPIC01",
+        "subCategory": "101",
+        "difficulty": 3,
+        "tags": [],
+        "question": "クラウドサービスにおいて、あらかじめ用意されたOSイメージに基づいて、利用者の要求に応じて提供されるアプリケーション実行環境のことを何と呼びますか。適切なものを選択してください。",
+        "questionImage": "",
+        "explanationImage": "",
+        "questionType": "choice",
+        "choices": [
+            {
+                "type": "text",
+                "value": "IaaS",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "Docker",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "インスタンス",
+                "explanation": "クラウドサービス上で提供される、独立したOSのように扱えるアプリケーション実行環境をインスタンスといいます。IaaSやSaaSはクラウドサービスの形態、Dockerはコンテナを作成・運用するソフトウェアです。ミドルウェアは、データベース管理ソフトやプログラミング言語の実行環境など、OSとアプリケーションの間に入る種類のソフトウェアです。",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "SaaS",
+                "explanation": "",
+                "explanationImage": ""
+            },
+            {
+                "type": "text",
+                "value": "ミドルウェア",
+                "explanation": "",
+                "explanationImage": ""
+            }
+        ],
+        "answerIndexes": [
+            2
+        ]
     }
 ];
