@@ -417,7 +417,7 @@ function showSessionResult(interrupted) {
 
 function loadQuestion() {
     // 未回答の問題を飛ばさない
-    if (currentQuestion && !answered) {
+    if (currentQuestion && (!answered || sessionAnswerRecords.length < sessionIndex)) {
         alert("回答してから「次の問題」を押してください。");
         return;
     }
@@ -766,13 +766,14 @@ shuffledChoices.forEach(
 
 function finishAnswer(selectedIndexes) {
     if (answered) return;
-    answered = true;
+    // 採点表示が終わる前に回答済み扱いにしない
     const correctIndexes = getCorrectIndexes(currentQuestion);
     const isCorrect =
         selectedIndexes.length === correctIndexes.length &&
         selectedIndexes.every(i => correctIndexes.includes(i));
 
-    const buttons = document.querySelectorAll(".choice-btn");
+    // 振り返り画面の複製ボタンを含めず、現在の問題だけを対象にする
+    const buttons = document.querySelectorAll("#choices .choice-btn");
     buttons.forEach((btn, index) => {
         btn.disabled = true;
         const originalIndex = currentQuestion.shuffledChoices[index].originalIndex;
@@ -782,6 +783,7 @@ function finishAnswer(selectedIndexes) {
             btn.classList.add("wrong-choice");
         }
     });
+    answered = true;
     updateAnswerButton();
 
     const history =
