@@ -188,11 +188,17 @@ async function redirectIfLoggedIn() {
         if (!setupError && setupStatus &&
             setupStatus.password_setup_completed === true) {
             window.location.replace("index.html");
+        } else if (!setupError && setupStatus &&
+                   setupStatus.password_setup_completed === false) {
+            // 招待リンクで作られた認証セッションを維持して初回設定を再開。
+            // クイズ画面側の完了判定は変更しない。
+            window.location.replace("reset-password.html?resume_setup=1");
         } else {
-            const reason = setupError ? "status_check_failed=1" : "setup_required=1";
+            // 状態が取得できない場合は安全側に倒す。
             await supabaseClient.auth.signOut({ scope: "local" });
-            if (currentPage !== "login.html" || !window.location.search.includes(reason)) {
-                window.location.replace("login.html?" + reason);
+            if (currentPage !== "login.html" ||
+                !window.location.search.includes("status_check_failed=1")) {
+                window.location.replace("login.html?status_check_failed=1");
             }
         }
     }
