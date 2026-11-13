@@ -12,7 +12,6 @@ let answered = false;
 let selectedChoiceIndexes = new Set();
 let sessionQuestions = [];
 let sessionIndex = 0;
-let sessionAnswerRecords = []; // 今回の学習のみ（Supabaseには保存しない）
 
 /* ==========================
    Supabase 学習履歴
@@ -385,7 +384,6 @@ function startQuiz() {
         return;
     }
     sessionIndex = 0;
-    sessionAnswerRecords = [];
     askedQuestions = [];
     sessionCorrect = 0;
     sessionIncorrect = 0;
@@ -402,8 +400,6 @@ function showSessionResult(interrupted) {
     const score = total === 0 ? "0.0" : (sessionCorrect / total * 100).toFixed(1);
     document.getElementById("quizScreen").style.display = "none";
     document.getElementById("finishScreen").style.display = "block";
-    document.getElementById("reviewDetail").hidden = true;
-    document.getElementById("resultOverview").hidden = false;
     document.getElementById("finishResult").innerHTML = `
         <h3>${interrupted ? "途中終了しました" : "今回の結果"}</h3>
         出題予定数：${sessionQuestions.length}問<br>
@@ -412,7 +408,6 @@ function showSessionResult(interrupted) {
         不正解数：${sessionIncorrect}問<br>
         正答率：${score}%
     `;
-    renderSessionAnswerList();
 }
 
 function loadQuestion() {
@@ -451,7 +446,6 @@ function restartQuiz() {
 function returnHome() {
     currentQuestion = null;
     sessionQuestions = [];
-    sessionAnswerRecords = [];
     sessionIndex = 0;
 
     document.getElementById(
@@ -491,9 +485,7 @@ function isMultipleAnswer(question) {
 }
 
 function updateAnswerButton() {
-    const btn = document.getElementById("reviewBackBtn").addEventListener("click", closeReviewDetail);
-
-document.getElementById("submitAnswerBtn");
+    const btn = document.getElementById("submitAnswerBtn");
     btn.style.display = !isInputQuestion(currentQuestion) && isMultipleAnswer(currentQuestion) ? "block" : "none";
     btn.disabled = answered || selectedChoiceIndexes.size === 0;
 }
@@ -588,7 +580,6 @@ function finishInputAnswer(rawAnswer, field, button) {
         img.className = "explanation-image";
         explanationArea.appendChild(img);
     }
-    recordSessionAnswer(isCorrect);
     saveQuestionHistory(id);
     updateStatistics();
 }
@@ -974,97 +965,10 @@ function finishAnswer(selectedIndexes) {
 	}
 
 
- recordSessionAnswer(isCorrect);
- saveQuestionHistory(id);
+saveQuestionHistory(id);
 
     updateStatistics();
 
-}
-
-
-/* ==========================
-   今回の回答一覧・問題振り返り
-   ※表示用スナップショットのみ。累計履歴には影響しない。
-========================== */
-function recordSessionAnswer(isCorrect) {
-    // 採点後の画面を複製し、選択肢の並び・選択状態・解説画像を維持する。
-    const snapshot = document.createElement("div");
-    for (const id of ["question", "choices", "result", "explanation"]) {
-        const source = document.getElementById(id);
-        const copy = source.cloneNode(true);
-        copy.removeAttribute("id");
-        copy.querySelectorAll("[id]").forEach(node => node.removeAttribute("id"));
-        // 入力式の入力値はcloneNodeだけでは引き継がれないことがある。
-        if (id === "choices" && isInputQuestion(currentQuestion)) {
-            const field = copy.querySelector("input");
-            if (field) field.value = source.querySelector("input")?.value || "";
-        }
-        copy.querySelectorAll("button, input").forEach(node => {
-            node.disabled = true;
-            node.tabIndex = -1;
-        });
-        snapshot.appendChild(copy);
-    }
-    sessionAnswerRecords.push({
-        number: sessionIndex,
-        questionId: currentQuestion.id,
-        title: currentQuestion.question,
-        category: currentQuestion.category,
-        isCorrect,
-        snapshot
-    });
-}
-
-function renderSessionAnswerList() {
-    const area = document.getElementById("sessionAnswerList");
-    area.replaceChildren();
-    if (sessionAnswerRecords.length === 0) {
-        area.textContent = "回答済みの問題はありません。";
-        return;
-    }
-    sessionAnswerRecords.forEach((record, index) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "review-list-item";
-        const mark = document.createElement("span");
-        mark.className = record.isCorrect ? "review-correct" : "review-incorrect";
-        mark.textContent = record.isCorrect ? "〇 正解" : "× 不正解";
-        const name = document.createElement("span");
-        name.className = "review-question-title";
-        name.textContent = `第${record.number}問　${record.title}`;
-        const arrow = document.createElement("span");
-        arrow.textContent = "›";
-        button.append(mark, name, arrow);
-        button.addEventListener("click", () => showReviewDetail(index));
-        area.appendChild(button);
-    });
-}
-
-function showReviewDetail(index) {
-    const record = sessionAnswerRecords[index];
-    if (!record) return;
-    document.getElementById("resultOverview").hidden = true;
-    const detail = document.getElementById("reviewDetail");
-    detail.hidden = false;
-    document.getElementById("reviewPosition").textContent =
-        `第${record.number}問 / 回答済み${sessionAnswerRecords.length}問`;
-    const content = document.getElementById("reviewContent");
-    content.replaceChildren();
-    const category = document.createElement("p");
-    category.className = "review-category";
-    category.textContent = record.category || "";
-    content.append(category, record.snapshot.cloneNode(true));
-    document.getElementById("reviewPrevBtn").disabled = index === 0;
-    document.getElementById("reviewNextBtn").disabled = index === sessionAnswerRecords.length - 1;
-    document.getElementById("reviewPrevBtn").onclick = () => showReviewDetail(index - 1);
-    document.getElementById("reviewNextBtn").onclick = () => showReviewDetail(index + 1);
-    detail.scrollIntoView({behavior:"auto", block:"start"});
-}
-
-function closeReviewDetail() {
-    document.getElementById("reviewDetail").hidden = true;
-    document.getElementById("resultOverview").hidden = false;
-    document.getElementById("finishScreen").scrollIntoView({behavior:"auto", block:"start"});
 }
 
 /* ==========================
